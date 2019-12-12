@@ -354,6 +354,7 @@ CREATE TABLE IF NOT EXISTS `otus`.`purchases` (
   `id_addresses` INT(11) NOT NULL,
   `id_languages` INT(11) NOT NULL,
   `price` DECIMAL(10,2) NOT NULL,
+  `parameters` JSON,
   PRIMARY KEY (`id_purchases`),
   UNIQUE INDEX `id_customers_products_date_UNIQUE` (`id_customers` ASC, `id_products` ASC, `date_time` ASC)  COMMENT 'Combination of customer-producr-date must be unique',
   INDEX `fk_purchases_id_products_idx` (`id_products` ASC),
@@ -424,6 +425,30 @@ CREATE TABLE IF NOT EXISTS `otus`.`warehouse` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
+
+-- -----------------------------------------------------
+-- Table `otus`.`purchases` partitioning
+-- -----------------------------------------------------
+ALTER TABLE `otus`.`purchases` 
+DROP FOREIGN KEY `fk_purchases_id_products`,
+DROP FOREIGN KEY `fk_purchases_id_languages`,
+DROP FOREIGN KEY `fk_purchases_id_customers`,
+DROP FOREIGN KEY `fk_purchases_id_addresses`; --drops foreign keys, but indexes still remain 
+
+ALTER TABLE `otus`.`purchases` 
+DROP PRIMARY KEY,
+ADD PRIMARY KEY (`id_purchases`, `date_time`);
+
+ALTER TABLE otus.purchases PARTITION BY RANGE (DAYOFWEEK(date_time)) --partitioning depending on weekday
+(
+PARTITION p01 VALUES LESS THAN (2) ENGINE = InnoDB,
+PARTITION p02 VALUES LESS THAN (3) ENGINE = InnoDB,
+PARTITION p03 VALUES LESS THAN (4) ENGINE = InnoDB,
+PARTITION p04 VALUES LESS THAN (5) ENGINE = InnoDB,
+PARTITION p05 VALUES LESS THAN (6) ENGINE = InnoDB,
+PARTITION p06 VALUES LESS THAN (7) ENGINE = InnoDB,
+PARTITION p07 VALUES LESS THAN (8) ENGINE = InnoDB
+);
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

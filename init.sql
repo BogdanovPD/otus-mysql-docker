@@ -383,6 +383,8 @@ CREATE TABLE IF NOT EXISTS `otus`.`purchases` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
 
+ALTER TABLE `otus`.`purchases` 
+ADD COLUMN `count` INT(11) NOT NULL AFTER `price`;
 
 -- -----------------------------------------------------
 -- Table `otus`.`supplies`
@@ -408,6 +410,11 @@ CREATE TABLE IF NOT EXISTS `otus`.`supplies` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
 
+ALTER TABLE `otus`.`supplies` 
+ADD COLUMN `count` INT(11) NOT NULL AFTER `price`;
+
+ALTER TABLE `otus`.`supplies` 
+ADD COLUMN `date_time` DATETIME NOT NULL AFTER `count`;
 
 -- -----------------------------------------------------
 -- Table `otus`.`warehouse`
@@ -425,6 +432,9 @@ CREATE TABLE IF NOT EXISTS `otus`.`warehouse` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
+
+ALTER TABLE `otus`.`warehouse` 
+ADD UNIQUE INDEX `id_products_UNIQUE` (`id_products` ASC);
 
 -- -----------------------------------------------------
 -- Table `otus`.`purchases` partitioning
@@ -446,6 +456,126 @@ PARTITION p20200101 VALUES LESS THAN (TO_DAYS('2020-01-01')) ENGINE = InnoDB,
 PARTITION p20210101 VALUES LESS THAN (TO_DAYS('2021-01-01')) ENGINE = InnoDB,
 PARTITION future VALUES LESS THAN MAXVALUE ENGINE = InnoDB,
 );
+
+-- -----------------------------------------------------
+-- Table `otus`.`languages` insert
+-- -----------------------------------------------------
+insert into otus.languages values ('RU', 'Russian', 1);
+insert into otus.languages values ('EN', 'English', 2);
+
+-- -----------------------------------------------------
+-- Table `otus`.`genders` insert
+-- -----------------------------------------------------
+insert into otus.genders values ('Male', 1);
+insert into otus.genders values ('Female', 2);
+
+-- -----------------------------------------------------
+-- Table `otus`.`titles` insert
+-- -----------------------------------------------------
+insert into otus.titles values ('Mister', 'Mr', 1);
+insert into otus.titles values ('Missis', 'Mrs', 2);
+insert into otus.titles values ('Miss', 'Ms', 3);
+insert into otus.titles values ('Doctor', 'Dr', 4);
+
+-- -----------------------------------------------------
+-- Table `otus`.`marital_statuses` insert
+-- -----------------------------------------------------
+insert into otus.marital_statuses values ('Married', 1);
+insert into otus.marital_statuses values ('Single', 2);
+
+-- -----------------------------------------------------
+-- Table `otus`.`postal_codes` insert
+-- -----------------------------------------------------
+insert into otus.postal_codes values ('123456', 1);
+insert into otus.postal_codes values ('234567', 2);
+
+-- -----------------------------------------------------
+-- Table `otus`.`countries` insert
+-- -----------------------------------------------------
+insert into otus.countries values ('Russia', 'RU', 1);
+insert into otus.countries values ('United States of America', 'US', 2);
+
+-- -----------------------------------------------------
+-- Table `otus`.`regions` insert
+-- -----------------------------------------------------
+insert into otus.regions values (1, 'St.Petersburg', 1);
+insert into otus.regions values (2, 'New York', 2);
+
+-- -----------------------------------------------------
+-- Table `otus`.`cities` insert
+-- -----------------------------------------------------
+insert into otus.cities values (1, 'St.Petersburg', 1);
+insert into otus.cities values (2, 'New York', 2);
+
+-- -----------------------------------------------------
+-- Table `otus`.`streets` insert
+-- -----------------------------------------------------
+insert into otus.streets values (1, 'Nevskiy Prospect', 1);
+insert into otus.streets values (2, '1st Avenue', 2);
+
+-- -----------------------------------------------------
+-- Table `otus`.`addresses` insert
+-- -----------------------------------------------------
+insert into otus.addresses values (1, 1, '1', 1);
+insert into otus.addresses values (2, 2, '1', 2);
+
+-- -----------------------------------------------------
+-- Table `otus`.`customers` insert
+-- -----------------------------------------------------
+insert into otus.customers values (1, 1, 'Pavel', 'Bogdanov', '1992-04-18', 1, 1, 1, 1);
+insert into otus.customers values (2, 1, 'John', 'Smith', '1982-03-10', 2, 2, 2, 2);
+
+-- -----------------------------------------------------
+-- Table `otus`.`producers` insert
+-- -----------------------------------------------------
+insert into otus.producers values (1, 'Samsung', 1);
+insert into otus.producers values (2, 'Apple', 2);
+
+-- -----------------------------------------------------
+-- Table `otus`.`providers` insert
+-- -----------------------------------------------------
+insert into otus.providers values (1, 'Tech Dealer', 1);
+
+-- -----------------------------------------------------
+-- Table `otus`.`categories` insert
+-- -----------------------------------------------------
+insert into otus.categories values (1, 'Computers', NULL);
+insert into otus.categories values (2, 'Mobile', NULL);
+
+-- -----------------------------------------------------
+-- Table `otus`.`products` insert
+-- -----------------------------------------------------
+insert into otus.products values (1, 'Apple Mac', 2, 1);
+insert into otus.products values (2, 'Apple IPhone 11', 2, 2);
+insert into otus.products values (3, 'Samsung Galaxy S10', 1, 2);
+
+-- -----------------------------------------------------
+-- Table `otus`.`supplies` insert
+-- ---------------------------------------------------
+insert into otus.supplies values (1, 1, 1, 150000.00, 20, '2020-01-01 12:00:00');
+insert into otus.supplies values (2, 2, 1, 80000.00, 20, '2020-01-02 12:00:00');
+insert into otus.supplies values (3, 3, 1, 75000.00, 20, '2020-01-03 12:00:00');
+
+-- -----------------------------------------------------
+-- Table `otus`.`prices` insert
+-- ---------------------------------------------------
+insert into otus.prices values (1, 1, 180000.00,'2020-01-01 00:00:00');
+insert into otus.prices values (2, 2, 95000.00,'2020-01-01 00:00:00');
+insert into otus.prices values (3, 3, 900000.00,'2020-01-01 00:00:00');
+
+-- -----------------------------------------------------
+-- Table `otus`.`purchases` insert
+-- ---------------------------------------------------
+insert into otus.purchases values (1, 1, 1, '2020-01-04 15:00:00', 1, 1, 1, 180000.00, 1);
+insert into otus.purchases values (2, 1, 2, '2020-01-04 15:00:00', 1, 1, 1, 95000.00, 1);
+insert into otus.purchases values (3, 2, 3, '2020-01-04 17:00:00', 1, 2, 2, 90000.00, 1);
+
+-- -----------------------------------------------------
+-- Table `otus`.`warehouse` insert
+-- ---------------------------------------------------
+insert into otus.warehouse values (1, 1, 19);
+insert into otus.warehouse values (2, 2, 19);
+insert into otus.warehouse values (3, 3, 19);
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

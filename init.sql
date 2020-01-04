@@ -561,7 +561,7 @@ insert into otus.supplies values (3, 3, 1, 75000.00, 20, '2020-01-03 12:00:00');
 -- ---------------------------------------------------
 insert into otus.prices values (1, 1, 180000.00,'2020-01-01 00:00:00');
 insert into otus.prices values (2, 2, 95000.00,'2020-01-01 00:00:00');
-insert into otus.prices values (3, 3, 900000.00,'2020-01-01 00:00:00');
+insert into otus.prices values (3, 3, 90000.00,'2020-01-01 00:00:00');
 
 -- -----------------------------------------------------
 -- Table `otus`.`purchases` insert

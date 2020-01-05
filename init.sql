@@ -345,46 +345,26 @@ DEFAULT CHARACTER SET = latin1;
 -- -----------------------------------------------------
 -- Table `otus`.`purchases`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `otus`.`purchases` (
-  `id_purchases` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'Reduces product\'s count in the warehouse',
-  `id_customers` INT(11) NOT NULL,
-  `id_products` BIGINT(20) NOT NULL,
-  `date_time` DATETIME NOT NULL,
-  `status` TINYINT(1) NOT NULL DEFAULT '1' COMMENT 'Defines whether the purchase is canceled. false - canceled',
-  `id_addresses` INT(11) NOT NULL,
-  `id_languages` INT(11) NOT NULL,
-  `price` DECIMAL(10,2) NOT NULL,
-  `parameters` JSON,
+CREATE TABLE `purchases` (
+  `id_purchases` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Reduces product''s count in the warehouse',
+  `id_customers` int(11) NOT NULL,
+  `id_products` bigint(20) NOT NULL,
+  `date_time` datetime NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Defines whether the purchase is canceled. false - canceled',
+  `id_addresses` int(11) NOT NULL,
+  `id_languages` int(11) NOT NULL,
+  `price` decimal(10,2) NOT NULL,
+  `count` int(11) NOT NULL,
   PRIMARY KEY (`id_purchases`),
-  UNIQUE INDEX `id_customers_products_date_UNIQUE` (`id_customers` ASC, `id_products` ASC, `date_time` ASC)  COMMENT 'Combination of customer-producr-date must be unique',
-  INDEX `fk_purchases_id_products_idx` (`id_products` ASC),
-  INDEX `fk_purchases_id_addresses_idx` (`id_addresses` ASC),
-  INDEX `fk_purchases_id_languages_idx` (`id_languages` ASC),
-  CONSTRAINT `fk_purchases_id_addresses`
-    FOREIGN KEY (`id_addresses`)
-    REFERENCES `otus`.`addresses` (`id_addresses`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_purchases_id_customers`
-    FOREIGN KEY (`id_customers`)
-    REFERENCES `otus`.`customers` (`id_customers`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_purchases_id_languages`
-    FOREIGN KEY (`id_languages`)
-    REFERENCES `otus`.`languages` (`id_languages`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_purchases_id_products`
-    FOREIGN KEY (`id_products`)
-    REFERENCES `otus`.`products` (`id_products`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = latin1;
-
-ALTER TABLE `otus`.`purchases` 
-ADD COLUMN `count` INT(11) NOT NULL AFTER `price`;
+  UNIQUE KEY `id_customers_products_date_UNIQUE` (`id_customers`,`id_products`,`date_time`) COMMENT 'Combination of customer-producr-date must be unique',
+  KEY `fk_purchases_id_products_idx` (`id_products`),
+  KEY `fk_purchases_id_addresses_idx` (`id_addresses`),
+  KEY `fk_purchases_id_languages_idx` (`id_languages`),
+  CONSTRAINT `fk_purchases_id_addresses` FOREIGN KEY (`id_addresses`) REFERENCES `addresses` (`id_addresses`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_purchases_id_customers` FOREIGN KEY (`id_customers`) REFERENCES `customers` (`id_customers`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_purchases_id_languages` FOREIGN KEY (`id_languages`) REFERENCES `languages` (`id_languages`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_purchases_id_products` FOREIGN KEY (`id_products`) REFERENCES `products` (`id_products`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 -- -----------------------------------------------------
 -- Table `otus`.`supplies`
